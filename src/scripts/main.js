@@ -6,7 +6,7 @@ function waitFor(element, eventName) {
       resolve(
         `It was ${eventName} on the element: ${element.nodeName}, id: ${element.id}.`,
       );
-      element.removeEventListener(eventName, handler); // clean up
+      element.removeEventListener(eventName, handler);
     };
 
     element.addEventListener(eventName, handler);
@@ -21,17 +21,28 @@ const printMessage = (message) => {
   document.body.appendChild(div);
 };
 
-const loginField = document.getElementById('login');
-const passwordField = document.getElementById('password');
-const button = document.getElementById('submit');
+// Optional: Guarded wiring (if you keep wiring here)
+document.addEventListener('DOMContentLoaded', () => {
+  const loginField = document.getElementById('login');
+  const passwordField = document.getElementById('password');
+  const button = document.getElementById('submit');
 
-waitFor(loginField, 'click').then(printMessage);
-waitFor(passwordField, 'click').then(printMessage);
-waitFor(button, 'click').then(printMessage);
+  if (loginField) {
+    waitFor(loginField, 'click').then(printMessage);
+    waitFor(loginField, 'input').then(printMessage);
+    waitFor(loginField, 'blur').then(printMessage);
+  }
 
-waitFor(loginField, 'input').then(printMessage);
-waitFor(passwordField, 'input').then(printMessage);
+  if (passwordField) {
+    waitFor(passwordField, 'click').then(printMessage);
+    waitFor(passwordField, 'input').then(printMessage);
+    waitFor(passwordField, 'blur').then(printMessage);
+  }
 
-waitFor(loginField, 'blur').then(printMessage);
-waitFor(passwordField, 'blur').then(printMessage);
-waitFor(button, 'blur').then(printMessage);
+  if (button) {
+    waitFor(button, 'click').then(printMessage);
+    waitFor(button, 'blur').then(printMessage);
+  }
+});
+
+export { waitFor, printMessage };
