@@ -3,6 +3,8 @@
 function waitFor(element, eventName) {
   return new Promise((resolve) => {
     const handler = () => {
+      element.removeEventListener(eventName, handler);
+
       resolve(
         `It was ${eventName} on the element: ${element.nodeName}, id: ${element.id}.`,
       );
@@ -21,7 +23,6 @@ const printMessage = (message) => {
   document.body.appendChild(div);
 };
 
-// Optional: Guarded wiring (if you keep wiring here)
 document.addEventListener('DOMContentLoaded', () => {
   const loginField = document.getElementById('login');
   const passwordField = document.getElementById('password');
